@@ -1,0 +1,161 @@
+
+{% extends "layout.html" %}
+{% block content %}
+{{ super() }}
+<section id="info-parada"> 
+<fieldset class="encabezado"> 
+<form action="">   
+{%for datos in informacion %}   
+<legend><h1>INFORMACION DE LA PARADA</h1></legend>    
+<ol>    
+<li>
+<label for="parada">Nombre:</label>
+<input type="text" value="{{datos[1]}}" id="parada">
+</li>
+<li>
+<label for="direccion">Direccion:</label>
+<input type="text" value="{{datos[2]}}" id="direccion">
+</li>
+<li>
+<label for="municipio">Municipio:</label>
+<input type="text" value="{{datos[3]}}" id="municipio">
+</li>
+<li>
+<label for="provincia">Provincia:</label>
+<input type="text" value="{{datos[4]}}" id="provincia">
+</li>
+<li>
+<label for="zona">Zona:</label>
+<input type="text" value="{{datos[5]}}" id="zona">
+</li>
+<li>
+<label for="aporte">Aporte:</label>
+<input type="text" value="{{datos[6]}}RD$/{{datos[7]}}" id="aporte">
+</li>
+
+<li>
+<label for="press">Pte. Parada:</label>
+<input type="text" value="{{cabecera[3]}}" id="press">
+</li>
+<li>
+<label for="veedor">Pte. Federacion:</label>
+<input type="text" value="xxxxxxx" id="veedor">
+</li>
+<li>
+<label for="miemb">Miembros:</label>
+<input type="text" value="{{cabecera[2]}}" id="miemb">
+</li>
+</ol>
+{%endfor%}
+</form>
+</fieldset>
+</section> 
+<section id="listado">
+<fieldset class="tables"> 
+<h1>LISTADO DE MIEMBROS</h1>
+<table>
+   <tr>
+      <th>Item</th>
+      <th>Nombre del asociado</th>
+      <th>Cedula</th>
+      <th>Telefono</th>
+      <th>Funcion</th>
+   </tr>
+   {% for usuario in miembros %}
+   <tr>
+      <td>{{usuario[0]}}</td>
+      <td>{{usuario[1]}}</td>
+      <td>{{usuario[2]}}</td>
+      <td>{{usuario[3]}}</td>
+      <td>{{usuario[4]}}</td>
+   </tr>
+   {%endfor%}
+</table>   
+</fieldset>
+</section>
+<section>
+<fieldset class="tables">
+  <h1>INFORMACION FINANCIERA</h1>
+  <table>
+     <tr>
+        <th>Item</th>
+        <th>Informacion financiera</th>
+        <th>Total al momento</th>
+        <th>Moneda</th>
+     </tr>
+     <tr>
+      <tD>1</tD>
+      <td>Historico de aporta de los asociados :</td>
+      <td>{{diario[2]}}</td>
+      <td>RD$</td>
+   </tr>
+   <tr>
+      <tD>2</tD>
+      <td>Historico de ingresos por otras actividades :</td>
+      <td> {{diario[4]}}</td>
+      <td>RD$</td>
+   </tr>
+   <tr>
+      <tD>3</tD>
+      <td> Historico de abonos a prestamos de los asociados:</td>
+      <td>{{diario[6]}}</td>
+      <td>RD$</td>
+   </tr>
+     <tr>
+      <tD>4</tD>
+      <td>Historico de Prestamos facilitados los asociados :</td>
+      <td>{{diario[1]}}</td>
+      <td>RD$</td>
+   </tr>
+   <tr>
+      <tD>5</tD>
+      <td>Historial de cuotas no pagadas por los asociados:</td>
+      <td>{{diario[5]}}</td>
+      <td>RD$</td>
+   </tr>
+   <tr>
+      <tD>6</tD>
+      <td>Historial de gastos incurridos por la parada :</td>
+      <td>{{diario[3]}}</td>
+      <td>RD$</td>
+   </tr>
+
+     <tr>
+        <tD>7</tD>
+        <td>Informacion de balance bancario actualizada:</td>
+        <td>{{diario[7]}}</td>
+        <td>RD$</td>
+     </tr>
+     <tr>
+        <tD>8</tD>
+        <td>Balance segun datos aportas por el presidente:</td>
+        <td>{{diario[0]}}</td>
+        <td>RD$</td>
+     </tr>
+  </table>
+</fieldset>
+  </section>
+  <section id="aporte">
+   <fieldset class="tables">
+      <h1>Historial de Aportes y Pendientes</h1>
+      <table>
+         <tr>
+            <th>Nombre de asociado</th>
+            <th>Total cuotas</th>
+            <th>Cuotas pagadas</th>
+            <th>Cuotas Pendientes</th>
+            <th>Porcentaje de pagos(%)</th>
+         </tr>
+         {% for usuario in cuotas_hist %}
+         <tr>
+            <td>{{usuario[0]}}</td>
+            <td>{{usuario[3]}}</td>
+            <td>{{usuario[1]}}</td>
+            <td>{{usuario[2]}}</td>
+            <td>{{usuario[4]}}%</td>
+         </tr>
+         {%endfor%}
+      </table>     
+   </fieldset>
+  </section>
+{% endblock %}

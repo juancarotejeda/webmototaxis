@@ -1,0 +1,246 @@
+
+{% extends "layout.html" %}
+{% block content %}
+  {{ super() }}
+<section id="n_parada"> 
+    <fieldset class="pago">  
+    <form action="/crear_nueva_p" method="POST" > 
+    <LEgend><h1>CREAR PARADA</h1></LEgend>         
+            <ol> 
+            <li>
+            <legend>Datos de la parada</legend>
+            </li> 
+            <li>
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" type="text" placeholder="Escribe el nombre de la parada" required autofocus>
+            </li>
+            <li>
+            <label for="direccion">Direccion</label>
+            <input id="direccion" name="direccion" type="text" placeholder="direccion" required>
+            </li>
+            <li>
+            <label for="municipio">Municipio/Sector</label>
+            <input id="municipio" name="municipio" type="text" required>
+            </li>
+            <li>
+            <label for="provincia">Provincia</label>
+            <input id="provincia" name="provincia" type="text" required>
+            </li>
+            <li>
+            <label for="zona">Zona geografica</label>
+            <select id="zona" name="zona">
+                <optgroup label="">
+                <option selected>Distrito Nacional</option> 
+                <option >Gran Santo Domingo</option>
+                <option >zona Norte</option>
+                <option >zona Sur</option>
+                <option >zona Este</option>
+                </optgroup>
+            </select><br>
+            </li>
+            <li>
+            <label for="cuota">Cuotas</label>
+            <input id="cuota" name="cuota" type="text" required>
+            </li>
+            <li>
+            <label for="pago">Pago</label>
+            <select id="pago" name="pago">
+                <optgroup label="">
+                <option selected>Diario</option> 
+                <option >Semanal</option>
+                <option >Quincenal</option>
+                </optgroup>
+            </select><br>
+            </li>                  
+            <li>
+            <label for="banco">Banco</label>
+            <select id="banco" name="banco">
+                <optgroup label="">
+                   <option selected>Sin banco</option> 
+                   <option >Banrreservas</option>
+                   <option >Banco popular</option>
+                   <option>Banco BHD</option>
+                </optgroup>
+             </select><br>
+            </li>
+            <li>
+            <label for="cuenta">Num. de cuenta</label>
+            <input id="cuenta" name="cuenta" type="number" placeholder="Ej. 00166889999" required>
+            </li>
+        </ol>
+        <button type="submit"><h1>CREAR</h1></button>
+        </form>     
+        </fieldset>            
+        </section>
+
+        <section id="n_asociado"> 
+        <fieldset class="pago">
+        <form action="/n_miembro" method="POST" > 
+        <legend><h1>AGREGAR  ASOCIADO</h1></legend>       
+        <ol>    
+        <li>
+        <label for="E-parada">Elegir parada</label>
+        <select id="E-parada" name="E-parada" required> 
+                <optgroup label="parada">
+                <option selected></option>
+                {%for parada in paradas%}
+                <option value = {{parada}} >{{parada}}</option>
+                {%endfor%}
+                </optgroup>
+        </select><br>
+        </li> 
+        <li>
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" name="nombre" type="text" required autofocus>
+        </li>
+        <li>
+        <label for="cedula">Cedula</label>
+        <input id="cedula" name="cedula" type="text"  required>
+        </li>
+        <li>
+        <label for="telefono">Telefono</label>
+        <input id="telefono" name="telefono" type="text" required>
+        </li>
+        <li>
+        <label for="funcion">Funcion</label>
+        <input id="funcion" name="funcion" type="text" required>
+        </li>
+        </ol>
+        <button type="submit">Agregar asociado</button>
+        </form>
+        </fieldset> 
+        </section>
+
+        <section id="editar_pa">
+            <fieldset class="pago">
+            <form action="/edit_parada" method="POST">
+            <LEgend><h1>EDITAR PARADA</h1></LEgend>          
+            <ol> 
+            <li>                   
+            <label for="e-parada">Elegir parada</label>
+            <select id="e-parada" name="e-parada">
+                    <optgroup label="parada"> 
+                    <option selected></option>
+                    {%for parada in paradas%}
+                    <option value = {{parada}} >{{parada}}</option>
+                    {%endfor%}
+                    </optgroup>
+            </select><br>
+            <button type="submit">Aceptar</button><br>
+            </form> 
+            </li> 
+            </ol>
+            <br><br>    
+
+            -------------------------------------------------------------------------------
+            <form action="actualizar_p" method="POST">
+            {%for dat in data%}
+            <legend>Datos de la parada</legend>
+            <ol>   
+            <li>
+            <label for="parada">Parada</label>
+            <input id="parada" name="parada" type="text" value="{{parada}}">
+            </li>
+            <li>
+            <label for="direccion">Direccion</label>
+            <input id="direccion" name="direccion" type="text" value="{{dat[2]}}">
+            </li>
+            <li>
+            <label for="municipio">Municipio/Sector</label>
+            <input id="municipio" name="municipio" type="text" value="{{dat[3]}}">
+            </li>
+            <li>
+            <label for="provincia">Provincia</label>
+            <input id="provincia" name="provincia" type="text"value="{{dat[4]}}">
+            </li>
+            <li>
+            <label for="zona">Zona geografica</label>
+            <input id="zona" name="zona" type="text"value="{{dat[5]}}">
+            </li> 
+            <li>
+            <label for="cuota">Cuota</label>
+            <input id="cuota" name="cuota" type="text"value="{{dat[6]}}">
+            </li> 
+            <li>
+            <label for="pago">Pago</label>
+            <input id="pago" name="pago" type="text"value="{{dat[7]}}">
+            </li>                      
+            <li>
+            <label for="banco">Banco</label>
+            <input id="banco" name="banco" type="text"value="{{dat[8]}}">
+            </li>
+            <li>
+            <label for="cuenta">Num. de cuenta</label>
+            <input id="cuenta" name="num_cuenta" type="number" value="{{dat[9]}}">
+            </li>
+            </ol>
+            <button type="submit">ACTUALIZAR</button>          
+             {%endfor%}
+            </form>
+            </fieldset>
+         </section>
+         <section id="editar_as">
+        <fieldset class="pago">
+        <form action="/select_p" method="POST">
+        <legend><h1>EDITAR ASOCIADO</h1></legend>     
+        <ol>     
+        <li>
+        <label for="parada">Elegir parada</label>
+        <select id="parada" name="parada" required> 
+                <optgroup label="parada">
+                <option selected></option>
+                {%for parada in paradas%}
+                <option value = {{parada}} >{{parada}}</option>
+                {%endfor%}
+                </optgroup>
+        </select><br>
+        <button type="submit">SELECCIONAR</button>    
+        </li> 
+        </ol> 
+        </form>
+        -------------------------------------------------------------------------------
+        <br><br>
+        <form action="/select_miembro" method="POST">
+        <legend><h1>SELECCIONAR ASOCIADO</h1></legend>     
+        <ol>     
+        <li>
+        <label for="miembro">Elegir miembro</label>
+        <select id="miembro" name="miembro" required> 
+                    <optgroup label="Miembros">
+                    <option selected></option>
+                    {%for parada in paradas%}
+                    <option value = {{parada}} >{{parada}}</option>
+                    {%endfor%}
+                    </optgroup>
+        </select><br>
+        <button type="submit">SELECCIONAR</button>    
+        </li> 
+        </ol> 
+        </form>
+        -------------------------------------------------------------------------------
+        <br><br>       
+        <form action="edit_miembros">
+        <legend><h1>EDITAR ASOCIADO</h1></legend>     
+        <ol>   
+        <li>
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" name="nombre" type="text"  required autofocus>
+        </li>
+        <li>
+        <label for="cedula">Cedula</label>
+        <input id="cedula" name="cedula" type="text"  required>
+        </li>
+        <li>
+        <label for="telefono">Telefono</label>
+        <input id="telefono" name="telefono" type="text" required>
+        </li>
+        <li>
+        <label for="funcion">Funcion</label>
+        <input id="funcion" name="funcion" type="text" required>
+        </li>
+        </ol>
+        <button type="submit">EDITAR</button> 
+        </form>      
+        </fieldset> 
+</section>
+{% endblock %}

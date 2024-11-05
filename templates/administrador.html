@@ -1,0 +1,254 @@
+
+{% extends "layout.html" %}
+{% block content %}
+{{ super() }}
+<section id="cuotas" >
+<fieldset class="tables">
+<form action="/data_cuotas" method="POST">   
+<legend><h1>LISTA DE PAGOS</h1></legend> 
+<fieldset class="encabezado">       
+   <ol>
+   <li>
+   <label for="paradas">PARADA:</label>             
+   <input type="text" name="parada" value="{{parada}}" id="paradas">
+   </li>
+   <li>                     
+   <label for="fecha">FECHA:</label>
+   <input type="text" name="time" value="{{fecha}}" id="fecha">
+   </li>
+   <li>
+   <label for="miembro">MIEMBROS:</label>
+   <input type="text" name="numero" value="{{ cabecera[2]}}" id="miembro">         
+   </li>
+   <li>
+   <label for="valor">CUOTA:</label>
+   <input type="text" name="valor" value="{{ cabecera[0]}}" id="valor">
+   </li>
+   </ol>
+   </fieldset>
+   <table>
+   <tr>
+      <th>ITEM</th>
+      <th>PAGO</th>
+      <th>NOMBRE_DEL_ASOCIADO</th>
+      <th>CEDULA</th>
+   </tr>
+   {% for user in datos %}
+   <tr>
+      <td>
+       {{ user[0]}}
+       <input type="hidden" value="{{ user[0]}}" name="item">
+      </td>
+      <td>
+      <label for="estado" > estado</label>   
+      <select name="select" id="estado">
+            <optgroup label="Estado">  
+            <option selected >no_pago</option>
+            <option >pago</option>
+            </optgroup>
+      </select>
+      <input type="hidden" value="select" name="estado">
+      </td>
+      <td>
+      {{ user[1]}}
+      <input type="hidden" value="{{ user[1]}}" name="nombre">
+      </td>
+      <td>
+      {{ user[2]}}
+      <input type="hidden" value="{{ user[2]}}" name="cedula">
+      </td>
+   </tr>
+   {%endfor%}
+</table>
+<button type="submit">ENVIAR</button>
+</form>
+</fieldset>
+</section>
+
+<section id="bancos">
+   <fieldset class="pago">
+   <form action="data_bancos" method="post"> 
+   {%for datos in informacion %}   
+   <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">   
+   
+   <legend><h1>REPORTE BANCARIO</h1></legend>      
+   <ol>    
+   <li>   
+   <h4>PARADA:{{datos[2]}}</h4>
+   </li>   
+
+   <li>    
+      <label for="tipo"><h4>REPORTE_BANCARIO</h4></label>
+   </li>
+   <li>    
+      <label for="fecha">FECHA:</label>
+      <input type="text" name="time" value="{{fecha}}" id="fecha">
+   </li>
+   <li>                   
+      <label for="banco">BANCO:</label>
+      <input type="text" name="n_cuenta" value="{{datos[8]}}" id="banco">
+   </li>
+   <li>     
+      <label for="numero">CUENTA #:</label>
+      <input type="text" name="n_cuenta" value="{{datos[9]}}" id="numero">
+   </li> 
+   <li>    
+      <label for="balance">BALANCE:</label>
+      <input type="text" name="balance" value="0.0000" id="balance">
+   </li>
+   <li>
+      <button type="submit">ENVIAR</button>
+   </li> 
+   </ol>   
+   {%endfor%}
+   </form>     
+   </fieldset>
+   </section>
+   <section id="gastos">
+   <fieldset class="pago">  
+   <form action="/data_gastos" method="post">
+   <legend><h1>REPORTE GASTOS </h1></legend>   
+   {%for datos in informacion %}   
+     <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
+   {%endfor%}  
+   <ol> 
+   <li> 
+   {%for datos in informacion %}
+   <h4>PARADA:{{datos[2]}}</h4>
+   {%endfor%}
+   </li>
+   <li>
+   <label for="fecha">FECHA:</label>
+   <input type="text" name="time" value="{{fecha}}" id="fecha"> 
+   </li>
+   <li>              
+      <label for="descripcion">DESCRIPCION:</label>
+      <select name="descripcion_g" id="descripcion">
+         <option value="No gastos">No gastos</option>
+         <option value="Pago a la Administradora">Pago a la Administradora</option>
+         <option value="Ayuda para la Federacion">Ayuda para la Federacion</option>
+         <option value="Compra de casco protector">Compra de casco protector</option>
+         <option value="Ayuada a Miembro">Ayuada a Miembro</option>
+         <option value="Compra de respuestos">Compra de respuestos</option>
+         <option value="Gastos segun Factura anexa">Gastos segun Factura anexa</option>
+      </select>
+   </li>  
+   <li>      
+   <label for="cantidad">CANTIDA:</label>
+   <input type="text" name="cantidad_g" value="0.0" id="cantidad">
+   </li>
+   </ol>
+   <button type="submit">ENVIAR</button>
+   </form>
+   </fieldset>
+   </section>
+
+   <section id="ingresos" >
+   <fieldset class="pago">        
+   <form action="data_ingresos" method="post">
+   <legend><h1>REPORTE DE INGRESOS</h1></legend>    
+   {%for datos in informacion %}   
+      <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
+   {%endfor%}   
+   <ol> 
+   <li>   
+   {%for datos in informacion %}
+      <h4>PARADA:{{datos[2]}}</h4>
+   {%endfor%} 
+   </li> 
+   <li>
+   <label for="fecha">FECHA:</label>
+   <input type="text" name="time" value="{{fecha}}" id="fecha">
+   </li> 
+   <li>      
+   <label for="descripcion_i">DESCRIPCION:</label>
+   <select name="descripcion_i" id="descripcion_i">
+      <option value="No ingresos">No ingresos</option>
+      <option value="Ingresos por publicidad">Ingresos por publicidad</option>
+      <option value="Aporte a la parada">Aporte a la parada</option>
+      <option value="Ayuda del estado">Ayuda del estado</option>
+      <option value="Recaudacion de Fondo">Recaudacion de Fondo</option>
+      <option value="Ingreso segun recibo anexo">Ingreso segun recibo anexo</option>
+   </select>
+   </li>
+   <li>
+   <label for="cantidad">CANTIDA:</label>
+   <input type="text" name="cantidad_i" value="0.0" id="cantidad">
+   </li>
+   </ol>
+   <button type="submit">ENVIAR</button>
+   </fieldset>
+   </form>   
+   </section>
+   <section id="prestamos" >
+   <fieldset class="pago"> 
+   <form action="data_prestamos" method="post">  
+   <legend><h1>REPORTE PRESTAMOS</h1></legend>    
+   {%for datos in informacion %}   
+   <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
+   {%endfor%}      
+   <ol>  
+   <li>
+   {%for datos in informacion %}
+      <h4>PARADA: {{datos[2]}}</h4>
+   {%endfor%}
+   </li> 
+   <li>   
+   <label for="fecha">FECHA:</label>
+   <input type="text" name="time" value="{{fecha}}" id="fecha"><br>  
+   </li> 
+   <li> 
+   <label for="beneficiado">BENEFICIADO:</label>  
+   <select name="descripcion_p" id="beneficiado">         
+      <option value="Sin Beneficiario ">Sin Beneficiario</option>
+      {% for usuario in miembros %}
+      <option value="{{usuario[1]}}">{{usuario[1]}}</option>
+      {%endfor%}
+   </select>
+   </li>
+   <li>
+   <label for="monto">MONTO:</label>
+   <input type="text" name="cantidad_p" id="monto" value="0.0">
+   </li>
+   </ol>
+   <button type="submit">ENVIAR</button>
+   </form>
+   </fieldset>
+   </section>
+
+   <section id="prestamos" class="prestamos">
+   <fieldset class="pago">        
+   <form action="data_abonos" method="post">
+   <legend><h1>REPORTE DE ABONO A PRESTAMOS</h1></legend>    
+   {%for datos in informacion %}   
+       <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
+   {%endfor%}  
+   <ol>   
+   <li>
+   {%for datos in informacion %}
+   <h4>PARADA: {{datos[2]}}</h4>
+   {%endfor%} 
+   </li>                   
+   <li>
+   <label for="fecha">FECHA:</label>
+   <input type="text" name="time" value="{{fecha}}" id="fecha">
+   </li>
+   <li>
+   <label for="abonar">ABONAR A:</label>
+   <select name="descripcion_a" id="abonar">                 
+      <option value="Nigun Abono ">Nigun Abono</option>
+      {% for usuario in miembros %}
+      <option value="{{usuario[1]}}">{{usuario[1]}}</option>
+      {%endfor%}
+   </select>
+   </li>
+
+   <li>
+   <label for="cantidad">CANTIDA:</label>
+   <input type="text" name="cantidad_a" id="cantidad"  value=0.0>
+   </li>
+   </ol> 
+   <button type="submit">ENVIAR</button> 
+</fieldset>
+</section>
+{% endblock %}

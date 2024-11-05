@@ -1,0 +1,481 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    width: 95%;
+    max-height: 900px;
+    margin: 0 auto;
+    font-family: Arial, Helvetica, sans-serif;
+    background: url(/static/images/imagen.jpg);
+    background-size:100%;
+    background-attachment:fixed;
+
+}
+
+
+
+
+.headers{
+   
+height: 100px;
+width: auto;
+padding: 10px 10%;
+border-radius: 10PX;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+
+
+.headers .logo img{
+    height: 50px;
+    width:95px;
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s;
+  }  
+  
+  .headers .logo{
+   cursor: pointer;
+  }
+  
+  .headers .logo img:hover{
+     transform: scale(1.2);
+     }
+
+
+     .menu nav {
+        background-color: #333;
+        overflow: hidden;
+      }
+      
+      .menu ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+      
+      .menu li {
+        float: left;
+      }
+      
+      .menu li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      
+      .menu li a:hover {
+        background-color: #111;
+      }
+
+      @media screen and (max-width: 600px) {
+        .menu li {
+          float: none;
+        }
+      }
+
+
+
+.pago{
+    margin:auto;
+    background-color: #000000;
+    color: white;
+    font-size: 12px;
+    padding: 30px;
+    width: 400px;
+    border:solid 10px LightSteelBlue;
+    overflow: hidden;
+    margin-bottom: 10px;
+    }
+    
+    .pago fieldset{
+    border: none;
+    }
+    
+    .pago h1{
+        text-align: center;
+        margin-bottom: 10px;            
+        } 
+    
+    .pago  ol li{
+    line-height: 25px;
+    list-style: none;
+    list-style-type: none;
+    }
+    
+    .pago  [required]{
+    border:solid 1px red;
+    }
+    
+    .pago input:required {
+    outline: 1px solid red;
+    }
+
+    .pago select{
+        font-size:12px;
+        background: yellow;
+        border:solid 1px Green;
+        border-radius: 5px;
+        float: right;
+        margin-right: 40px;
+
+        width: 150px;
+      }
+      .pago select option{
+        background:black;
+        color:red;
+      }
+      .pago select option:disabled{
+        background: blue;
+      }
+
+      .pago input{
+        font-size:12px;
+        background: yellow;
+        border:solid 1px Green;
+        border-radius: 5px;
+        float: right;
+        margin-right: 40px;
+
+        width: 150px;
+        }
+
+    .pago button{
+        font-size:12px;
+        background: yellow;
+        border:solid 1px Green;
+        width: 150px;
+        height: 25px;
+        margin-left: 60px;
+
+        width: 150px;
+        }
+
+    .socios option {
+background-color: #ddd;
+color: black;
+
+    }
+
+    .socios input{
+        font-size:14px;
+        background: yellow;
+        width:auto;
+        }
+
+
+/*----------------------------------encabezado--------------------------*/
+    
+    .encabezado{
+        margin:auto;
+        background-color: #000000;
+        color: white;
+        font-size: 14px;
+        padding: 30px;
+        width: 400px;
+        border:solid 5px  LightSteelBlue;
+        overflow: hidden;
+    }        
+    .encabezado input{
+        font-size:14px;
+        color: rgb(0, 0, 0);
+        width:200px;
+        background-color: gold;
+        }
+        
+
+
+        .encabezado ol li{
+                line-height: 25px;
+                list-style-type: none;
+                padding: 4px;
+                }
+
+    .encabezado h1{
+        text-align: center;
+        margin-bottom: 10px;            
+        } 
+
+/*-----------------------------------login-------------------------------*/
+        .login{
+            margin:auto;
+            background-color: #000000;
+            color: white;
+            font-size: 12px;
+            padding: 30px;
+            width: 400px;
+            border:solid 10px LightSteelBlue;
+            overflow: hidden;
+            margin-bottom: 10px;
+            }
+
+            .login  ol li{
+                line-height: 25px;
+                list-style: none;
+                padding: 4px;
+                }
+
+            .login h1{
+                    text-align: center;
+                    margin-bottom: 10px;            
+                    }                 
+            
+
+            .login input{
+            font-size:12px;
+            background: yellow;
+            border:solid 1px Green;
+            border-radius: 5px;
+            float: right;
+            width: auto;
+            margin-right: 40px;
+
+            width: 150px;
+            }
+
+        .login button{
+            font-size:12px;
+            background: yellow;
+            border:solid 1px Green;
+            width: 150px;
+            height: 30px;
+            color: #000000;
+            border-radius: 5px;
+            margin-left: 60px;
+            }
+            
+        .login input[type="password"]{
+            font-size: 12px;
+            width: 150px;
+            height: 20px;
+            padding: 10px;
+            border: none;
+            background:  yellow;
+        }    
+
+
+        .publicidad_u{
+           height: 80px;
+           width: 400px;
+           background: #0217ff;
+           color: white;
+           margin-bottom: 10px;
+           margin: auto;
+           border-radius: 10px;
+           margin-bottom: 10px;
+        }
+
+        .publicidad_d{
+            height: 80px;
+            width: 400px;
+            background:rgb(0, 0, 0);
+            color: white;
+            margin: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+         }
+
+         .publicidad_d2{
+            height: 80px;
+            width: 400px;
+            background:rgb(0, 0, 0);
+            color: white;
+            margin: auto;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 10px;
+            padding-top: 30px;
+         }     
+
+        .msg{
+        color: rgb(255, 87, 20);
+        font-size: 20px;
+        } 
+            
+   
+
+/*-----------------------------------login prinsipal------------------------*/        
+        .login-entrada{
+            margin:auto;
+            background-color: #000000;
+            color: white;
+            font-size: 12px;
+            padding: 30px;
+            width: 400px;
+            height: 350px;
+            border:solid 10px LightSteelBlue;
+            overflow: hidden;
+            margin-top: 40px;
+            }
+            
+        .login-entrada fieldset{
+            border: none;
+            }
+            
+        .login-entrada h1{
+            text-align: center;
+            margin-bottom: 10px;            
+            }        
+            
+        .login-entrada  ol li{
+            line-height: 25px;
+            list-style: none;
+            list-style-type: none;
+          padding-top: 20px;
+            }
+            
+        .login-entrada  [required]{
+            border:solid 1px red;
+            }
+            
+        .login-entrada input:required {
+            outline: 1px solid red;
+            }
+        
+        .login-entrada select{
+                font-size:12px;
+                background: yellow;
+                border:solid 1px Green;
+                border-radius: 5px;
+                float: right;
+                margin-right: 20px;        
+                width: 250px;
+                height: 30px;
+              }
+
+        .login-entrada select option{
+                background:white;
+                color:red;
+              }
+
+        .login-entrada select option:disabled{
+                background: blue;
+              }
+        
+        .login-entrada input{
+                font-size:12px;
+                background: yellow;
+                border:solid 1px Green;
+                border-radius: 5px;
+                float: right;
+                margin-right: 20px;  
+                height: 30px; 
+                width: 250px;
+                }
+        
+        .login-entrada button{
+                font-size:14px;
+                background: yellow;
+                color: black ;
+                font-weight: 700;
+                border:solid 1px Green;
+                width: 350px;
+                height: 30px;
+                text-align: center;
+               padding-top: 5px;
+                margin-top: 15px;
+                margin-right:20px;   
+              
+                }        
+
+/*---------------------------tables-------------------------------------*/
+
+.tables{
+    margin:auto;
+    background-color: #000000;
+    color: white;
+    font-size: 12px;
+    padding: 30px;
+    width: 400px;
+    border:solid 10px LightSteelBlue;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    }
+    
+.tables fieldset{
+    border: none;
+    }
+    
+.tables h1{
+    text-align: center;
+    margin-bottom: 10px;
+    }   
+    
+.tables table{
+        margin: auto;  
+         width:350px;
+         text-align: center;
+       
+       }
+       
+       
+.tables th, td {
+           width:min-content;
+           border: 0;
+           color: white;
+         }
+           
+.tables  ol li{
+    line-height: 25px;
+    list-style: none;
+    list-style-type: none;
+  padding-top: 20px;
+    }
+    
+.tables  [required]{
+    border:solid 1px red;
+    }
+    
+.tables input:required {
+    outline: 1px solid red;
+    }
+
+.tables select{
+        font-size:12px;
+        background: yellow;
+        border:solid 1px Green;
+        border-radius: 5px;
+        float: right;
+        margin-right: 10px;        
+        width: 80px;
+        height: 20px;
+      }
+
+.tables select option{
+        background:black;
+        color:red;
+      }
+
+.tables select option:disabled{
+        background: blue;
+      }
+
+
+.tables button{
+        font-size:14px;
+        background: yellow;
+        color: black ;
+        font-weight: 700;
+        border:solid 1px Green;
+        width: 350px;
+        height: 20px;
+        text-align: center;
+       padding-top: 5px;
+        margin-top: 15px;
+        margin-right:10px;   
+      
+        }        

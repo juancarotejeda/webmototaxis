@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<!-- mobile metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Moto-estaciones</title> 
+<head>  
+<link href="/static/css/estilo.css" rel="stylesheet"> 
+</head>  
+  
+<header class="headers">  
+ <div class="logo">
+   <img src="/static/images/logo-motoben.jpg" alt="logo de la Adm.">
+</div> 
+<nav class="menu" id="menu">
+  <ul>
+    <li><a href="{{url_for('data_confirmacion')}}">HOME</a></li>
+    <li><a href="{{url_for('administrador')}}">ADMINISTRADOR</a></li>
+    <li><a href="{{url_for('digitadores')}}">DIGITADORES</a></li>
+    <li><a href="{{url_for('contacto')}}">CONTACTAR</a></li> 
+  </ul> 
+ </nav>
+</header>
+<fieldset class="publicidad_u">
+<img src="/static/images/publicidad2.jpg" alt="publicidad de la Adm." width="400" height="75">
+</fieldset>
+{% block content %}
+<body>
+</body>
+{% endblock %}
+<fieldset class="publicidad_d"> 
+  <img src="/static/images/publicidad2.jpg" alt="logo de la Adm." width="400" height="75" > 
+</fieldset>
+<fieldset class="publicidad_d2"> 
+&copy; Copyright 2024 by <a href="http://www.cessrl.blogspot.com">La Administradora</a>.
+</fieldset>
+  </html>
