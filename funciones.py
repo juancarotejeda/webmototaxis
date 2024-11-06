@@ -222,13 +222,24 @@ def generar_pp(cur,nombre,direccion,municipio,provincia,zona,cuota,pago,banco,nu
     cur.execute(f"INSERT INTO tabla_index(nombre,direccion,municipio,provincia,zona,cuota,pago,banco,num_cuenta) VALUES('{nombre}','{direccion}','{municipio}','{provincia}','{zona}','{cuota}','{pago}','{banco}','{num_cuenta}') ")
     return
 
+def nombres_miembro(cur,parada):
+        listado=[]
+        cur.execute(f"SELECT nombre FROM {parada} ")
+        nombres=cur.fetchall()
+        for nombre in nombres:
+            listado += nombre
+        return listado 
 
 
-
+def dat_miembros(cur,parada,miembro):
+    cur.execute(f"SELECT nombre,cedula,telefono,funcion FROM {parada} WHERE nombre='{miembro}'")
+    listado=cur.fetchall()
+    return listado
 
 def insertar_Asociado(cur,parada,nombre,cedula,telefono,funcion):
      cur.execute(f"INSERT INTO {parada}( nombre,cedula,telefono,funcion) VALUES('{nombre}','{cedula}','{telefono}','{funcion}')")
      return 
 
-def actualizar_asoc(cur,parada,nombre,cedula,telefono,funcion):
-     cur.execuete(F"UPDATE {parada} SET nombre='{nombre}',cedula='{cedula}',telefono='{telefono}',funcion='{funcion}' ") 
+def actualizar_asoc(cur,parada,nombre,cedula,telefono,funcion,id):
+     cur.execute(F"UPDATE {parada} SET nombre='{nombre}',cedula='{cedula}',telefono='{telefono}',funcion='{funcion}' WHERE nombre ='{id}' ") 
+     return

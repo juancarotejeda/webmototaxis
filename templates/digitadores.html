@@ -179,6 +179,9 @@
             </form>
             </fieldset>
          </section>
+
+<!---------------------------editar miembro-------------------------------->
+
          <section id="editar_as">
         <fieldset class="pago">
         <form action="/select_p" method="POST">
@@ -202,14 +205,17 @@
         <br><br>
         <form action="/select_miembro" method="POST">
         <legend><h1>SELECCIONAR ASOCIADO</h1></legend>     
-        <ol>     
+        <ol>
         <li>
-        <label for="miembro">Elegir miembro</label>
-        <select id="miembro" name="miembro" required> 
+        <input id="banco" name="parada" type="text"value="{{parada}}">
+        </li>    
+        <li>
+        <label for="miembros">Miembro a editar</label>
+        <select id="miembros" name="miembros"> 
                     <optgroup label="Miembros">
                     <option selected></option>
-                    {%for parada in paradas%}
-                    <option value = {{parada}} >{{parada}}</option>
+                    {%for miembro in list_miembros%}
+                    <option >{{miembro}}</option>
                     {%endfor%}
                     </optgroup>
         </select><br>
@@ -219,28 +225,35 @@
         </form>
         -------------------------------------------------------------------------------
         <br><br>       
-        <form action="edit_miembros">
+        <form action="/redit_miembro" method="POST">
+        {%for info in datos_miembro%}    
         <legend><h1>EDITAR ASOCIADO</h1></legend>     
-        <ol>   
+        <ol> 
         <li>
+        <label for="parada">Parada</label>
+        <input id="parada" name="parada" type="text" value="{{parada}}" readonly>
+        </li>      
+        <li>
+        <input name="id" type="hidden" value="{{info[0]}}">    
         <label for="nombre">Nombre completo</label>
-        <input id="nombre" name="nombre" type="text"  required autofocus>
+        <input id="nombre" name="nombre" type="text" value="{{info[0]}}" autofocus>
         </li>
         <li>
         <label for="cedula">Cedula</label>
-        <input id="cedula" name="cedula" type="text"  required>
+        <input id="cedula" name="cedula" type="text" value="{{info[1]}}">
         </li>
         <li>
         <label for="telefono">Telefono</label>
-        <input id="telefono" name="telefono" type="text" required>
+        <input id="telefono" name="telefono" type="text" value="{{info[2]}}">
         </li>
         <li>
         <label for="funcion">Funcion</label>
-        <input id="funcion" name="funcion" type="text" required>
+        <input id="funcion" name="funcion" type="text" value="{{info[3]}}">
         </li>
         </ol>
         <button type="submit">EDITAR</button> 
-        </form>      
+        {%endfor%} 
+        </form>     
         </fieldset> 
 </section>
 {% endblock %}

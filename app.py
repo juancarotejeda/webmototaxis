@@ -20,12 +20,11 @@ connection =mysql.connector.connect(
     user=DB_USERNAME,
     password=DB_PASSWORD,
     database=DB_NAME,
-    autocommit=True,
-
+    autocommit=True
 )
+
 @app.route("/")
-def login():  
-    msg = '' 
+def login():   
     cur = connection.cursor() 
     resultado=funciones.listado_paradas(cur)
     paradas=[]
@@ -34,44 +33,46 @@ def login():
     cur.close()                   
     return render_template('login.html',n_paradas=paradas)
 
-@app.route("/new_data", methods=["POST"])
+@app.route("/new_data", methods=["GUET","POST"])
 def new_data(): 
-    msg = ''
+   msg = ''
+   if request.method == 'POST':  
     global parada,cedula,password     
     parada = request.form['parada']
     cedula = request.form['cedula']
     password = request.form['clave']    
     cur = connection.cursor()    
     estacion=funciones.check_parada(cur,parada)
-    if estacion == False:
-        msg = 'Esta parada esta inoperante!' 
-        flash(msg)          
-        return redirect(url_for('login'))
-    
-    cur.execute(f"SELECT cedula FROM {parada} WHERE cedula='{cedula}'")
-    result = cur.fetchall()
-    if result != []:   
-      cur.execute(f"SELECT password FROM tabla_index  WHERE nombre ='{parada}'" )
-      ident=cur.fetchall() 
-      for idx in ident:   
-        if password == idx[0]:                                             
-            fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
-            informacion=funciones.info_parada(cur,parada)
-            cabecera=funciones.info_cabecera(cur,parada)
-            miembros=funciones.lista_miembros(cur,parada)
-            diario=funciones.diario_general(cur,parada)
-            cuotas_hist=funciones.prestamo_aport(cur,parada)
-            cur.close()
-            return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist) 
+    if estacion == True:   
+        cur.execute(f"SELECT cedula FROM {parada} WHERE cedula='{cedula}'")
+        result = cur.fetchall()
+        if result != []:   
+         cur.execute(f"SELECT password FROM tabla_index  WHERE nombre ='{parada}'" )
+         ident=cur.fetchall() 
+         for idx in ident:   
+            if password == idx[0]:                                             
+                fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
+                informacion=funciones.info_parada(cur,parada)
+                cabecera=funciones.info_cabecera(cur,parada)
+                miembros=funciones.lista_miembros(cur,parada)
+                diario=funciones.diario_general(cur,parada)
+                cuotas_hist=funciones.prestamo_aport(cur,parada)
+                cur.close()
+                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist) 
+            else:
+                msg = 'Incorrecta contraseña de la parada!'          
+                flash(msg)           
+                return redirect(url_for('login')) 
         else:
-            msg = 'Incorrecta contraseña de la parada!'          
-            flash(msg)           
-            return redirect(url_for('login')) 
+          msg = 'cedula Incorrecta para esta parada!'
+          flash(msg)           
+          return redirect(url_for('login'))    
     else:
-      msg = 'cedula Incorrecta para esta parada!'
-      flash(msg)           
-      return redirect(url_for('login'))    
-
+      msg = 'Esta parada esta inoperante!' 
+      flash(msg)          
+      return redirect(url_for('login'))
+    
+    
 @app.route('/administrador') 
 def administrador():
     return render_template('login_a.html',parada=parada)
@@ -283,18 +284,40 @@ def n_miembro():
        funcion=request.form['funcion']
        funciones.insertar_Asociado(cur,parada,nombre,cedula,telefono,funcion)
        cur.close()
-       return render_template('direccion.html')
-                           
-                           
-@app.route('/editar_miembro') 
-def editar_miembro(): 
+       return render_template('digitadores.html')
+
+@app.route('/select_p',methods=['GUEST','POST']) 
+def select_p(): 
     if request.method == 'POST':
        cur = connection.cursor()
        parada=request.form['parada']
-       list_miembro=funciones.lista_miembros(cur,parada)
-    return render_template('direccion.html') 
+       list_miembros=funciones.nombres_miembro(cur,parada)
+       cur.close()
+       return render_template('digitadores.html',parada=parada,list_miembros=list_miembros)
+                           
+                           
+@app.route('/select_miembro',methods=['GUEST','POST']) 
+def select_miembro(): 
+    if request.method == 'POST':
+       cur = connection.cursor()
+       parada=request.form['parada']
+       miembro=request.form['miembros']
+       datos_miembro=funciones.dat_miembros(cur,parada,miembro)
+    return render_template('digitadores.html',datos_miembro=datos_miembro,parada=parada ) 
  
-
+@app.route('/redit_miembro',methods=['GUEST','POST']) 
+def redit_miembro(): 
+    if request.method == 'POST':
+       cur = connection.cursor()
+       parada=request.form['parada']
+       id=request.form['id']
+       nombre=request.form['nombre']
+       cedula=request.form['cedula']
+       telefono=request.form['telefono']
+       funcion=request.form['funcion']
+       funciones.actualizar_asoc(cur,parada,nombre,cedula,telefono,funcion,id)
+       cur.close()
+       return render_template('digitadores.html')
 
 
 if __name__ == "__main__":
