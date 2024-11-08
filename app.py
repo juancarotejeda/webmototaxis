@@ -107,29 +107,6 @@ def login_a():
             msg = 'Incorrecto nombre de usuario / password !'           
             return render_template('login_a.html',msg=msg)
 
-
-@app.route('/login_dir', methods =['POST'])
-def login_dir():
-  msg = ''
-  account=[]
-  if 'username' in request.form and 'password' in request.form:
-        nombre = request.form['username']
-        cedula = request.form['cedula']
-        password = request.form['password']
-        cur = connection.cursor()
-        account=funciones.verif_dig(cur,nombre,password)
-        if account == True:
-            paradas=[]  
-            resultado=funciones.listado_paradas(cur)
-            for paradax in resultado:
-              paradas+=paradax  
-            cur.close()       
-            return render_template('digitadores.html',paradas=paradas)
-        else:
-            msg = 'Incorrecto nombre de usuario / password !'          
-            return render_template("login_dir.html",msg=msg)                 
-
-
 @app.route('/logout')
 def logout():
 	session.pop('loggedin', None)
