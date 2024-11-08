@@ -126,8 +126,11 @@ def prestamo_aport(cur,parada):
         var_z = cur.fetchall()
         for var_n in var_z:
               var2=var_n[0]   
-        sub_t=var1+var2      
-        avg=round((var1/sub_t)*100,2)           
+        sub_t=var1+var2 
+        if sub_t != 0 :    
+         avg=round((var1/sub_t)*100,2)
+        else: 
+         avg=0          
         vgral+=(nombre[0],var1,var2,sub_t,avg) 
     list_1=dividir_lista(vgral,5)                    
     return list_1

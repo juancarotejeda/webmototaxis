@@ -1,54 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 {{ super() }}
-<FORM ACTION=" " METHOD=POST>
-  <TABLE BORDER>
-  
-  <TR>
-     <TD>Nombre:</TD>
-     <TD> <INPUT TYPE="text" NAME="nombre" SIZE=18 MAXLENGTH=18> F.Nac.:
-          <INPUT TYPE="text" NAME="edad" SIZE=8 MAXLENGTH=8> DNI: 
-          <INPUT TYPE="text" NAME="dni" SIZE=8 MAXLENGTH=8></TD>
-  
-  <TR>
-     <TD>Apellidos:</TD>
-     <TD> <INPUT TYPE="text" NAME="apellidos" SIZE=48 MAXLENGTH=48></TD>
-  
-  <TR>
-     <TD>Calle y número:</TD>
-     <TD> <INPUT TYPE="text" NAME="domicilio" SIZE=48 MAXLENGTH=48></TD>
-  
-  <TR>
-    <TD>Código Postal:</TD>
-    <TD> <INPUT TYPE="text" NAME="postal" SIZE=5 MAXLENGTH=5>Ciudad:
-         <INPUT TYPE="text" NAME="localidad" SIZE=36 MAXLENGTH=36></TD>
-  
-  <TR>
-     <TD>Provincia: </TD>
-     <TD> <INPUT TYPE="text" NAME="provincia" SIZE=20 MAXLENGTH=20>                Teléfono: 
-           <INPUT TYPE="text" NAME="telefono" SIZE=19 MAXLENGTH=19></TD>
-  
-  <TR>
-     <TD>Opción:</TD>
-     <TD> <SELECT NAME="OPCION">
-              <OPTION>OPCION 1
-              <OPTION>OPCION 2
-              <OPTION>OPCION 3
-              <OPTION>OPCION 4
-              <OPTION>OPCION 5
-  
-          </SELECT>Escoja una opción</TD>
-  
-  <TR>
-     <TD>Comentarios<BR> personales:</TD>
-     <TD> <TEXTAREA NAME="coment" ROWS=2 COLS=48></TEXTAREA></TD>
-  
-  <TR>
-     <TD><B>Pulse aquí:</B></TD>
-     <TD ALIGN=CENTER>
-         <INPUT TYPE="submit" VALUE="Enviar datos ">
-         <INPUT TYPE="reset" VALUE="Borrar los datos"></TD>
-  
-  </TABLE>
-  </FORM> 
+
+
 {% endblock %}
