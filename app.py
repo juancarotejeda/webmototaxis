@@ -49,16 +49,16 @@ def new_data():
         if result != []:   
          cur.execute(f"SELECT password FROM tabla_index  WHERE nombre ='{parada}'" )
          ident=cur.fetchall() 
-         for idx in ident:   
+         for idx in ident:  
             if password == idx[0]:                                             
                 fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
-                informacion=funciones.info_parada(cur,parada)
-                cabecera=funciones.info_cabecera(cur,parada)
-                miembros=funciones.lista_miembros(cur,parada)
-                diario=funciones.diario_general(cur,parada)
-                cuotas_hist=funciones.prestamo_aport(cur,parada)
+                informacion=funciones.info_parada(cur,parada) 
+                cabecera=funciones.info_cabecera(cur,parada) 
+                miembros=funciones.lista_miembros(cur,parada)                 
+                diario=funciones.diario_general(cur,parada)  
+                #cuotas_hist=funciones.prestamo_aport(cur,parada)
                 cur.close()
-                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist) 
+                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario) 
             else:
                 msg = 'Incorrecta contraseña de la parada!'          
                 flash(msg)           

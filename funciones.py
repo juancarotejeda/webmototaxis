@@ -221,7 +221,7 @@ def actualizar_pp(cur,parada,direccion,municipio,provincia,zona,cuota,pago,banco
      return 
  
 def generar_pp(cur,nombre,direccion,municipio,provincia,zona,cuota,pago,banco,num_cuenta): 
-    cur.execute(f"CREATE TABLE IF NOT EXISTS {nombre} (id INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(150)  NULL, cedula VARCHAR(50)  NULL, telefono VARCHAR(50)  NULL, funcion VARCHAR(50)  NULL)")
+    cur.execute(f"CREATE TABLE IF NOT EXISTS {nombre} (id INT NOT NULL AUTO_INCREMENT,codigo VARCHAR(50) NULL, nombre VARCHAR(150)  NULL, cedula VARCHAR(50)  NULL, telefono VARCHAR(50)  NULL, funcion VARCHAR(50)  NULL, cuota DECIMAL(10,2) unsigned DEFAULT 0)")
     cur.execute(f"INSERT INTO tabla_index(nombre,direccion,municipio,provincia,zona,cuota,pago,banco,num_cuenta) VALUES('{nombre}','{direccion}','{municipio}','{provincia}','{zona}','{cuota}','{pago}','{banco}','{num_cuenta}') ")
     return
 
