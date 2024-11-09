@@ -142,9 +142,9 @@ def data_confirmacion():
          datos=funciones.aportacion(cur,parada) 
          hoy = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
          cabecera=funciones.info_cabecera(cur,parada)
-         cuotas_hist=funciones.prestamo_aport(cur,parada)
+         #cuotas_hist=funciones.prestamo_aport(cur,parada)
          cur.close()  
-         return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha={hoy},cuotas_hist=cuotas_hist)
+         return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha={hoy})
 
 @app.route("/data_bancos",methods=["GET","POST"])
 def data_bancos(): 
