@@ -56,9 +56,9 @@ def new_data():
                 cabecera=funciones.info_cabecera(cur,parada) 
                 miembros=funciones.lista_miembros(cur,parada)                 
                 diario=funciones.diario_general(cur,parada)  
-                #cuotas_hist=funciones.prestamo_aport(cur,parada)
+                cuotas_hist=funciones.prestamo_aport(cur,parada)
                 cur.close()
-                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario) 
+                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist) 
             else:
                 msg = 'Incorrecta contraseña de la parada!'          
                 flash(msg)           
@@ -96,7 +96,7 @@ def login_a():
         cur = connection.cursor()
         account=funciones.verif_p(cur,parada,cedula,password) 
         if account ==True:
-            fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")  
+            fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H")  
             informacion=funciones.info_parada(cur,parada) 
             miembros=funciones.lista_miembros(cur,parada)
             datos=funciones.aportacion(cur,parada) 
@@ -127,7 +127,7 @@ def data_cuotas():
                     request.form.getlist('select')[i],
                     request.form.getlist('nombre')[i],
                     request.form.getlist('cedula')[i])  
-        string=funciones.dividir_lista(my_list,4) 
+        string=funciones.dividir_lista(my_list,4)
         cur = connection.cursor()
         funciones.crear_p(cur,parada,string,valor_cuota,hoy)  
         cur.close()                                                        
@@ -140,23 +140,21 @@ def data_confirmacion():
          miembros=funciones.lista_miembros(cur,parada)
          diario=funciones.diario_general(cur,parada)
          datos=funciones.aportacion(cur,parada) 
-         hoy = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
+         hoy = datetime.strftime(datetime.now(),"%Y %m %d - %H")
          cabecera=funciones.info_cabecera(cur,parada)
-         #cuotas_hist=funciones.prestamo_aport(cur,parada)
+         cuotas_hist=funciones.prestamo_aport(cur,parada)
          cur.close()  
-         return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha={hoy})
+         return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha={hoy},cuotas_hist=cuotas_hist)
 
 @app.route("/data_bancos",methods=["GET","POST"])
 def data_bancos(): 
     if request.method == 'POST':
        fecha = request.form['time']
        parada=request.form['parada'] 
-       nom_banco = request.form['nom_banco'] 
-       t_cuenta = request.form['t_cuenta']
-       n_cuenta = request.form['n_cuenta']
-       balance_c = request.form['balance']
+       banco = request.form['banco'] 
+       balance = request.form['balance']
        cur = connection.cursor() 
-       funciones.estado_bancario(cur,parada,fecha,nom_banco,t_cuenta,n_cuenta,balance_c)      
+       funciones.estado_bancario(cur,parada,fecha,banco,balance)      
        cur.close()   
        return redirect(url_for('data_confirmacion'))   
 
@@ -205,100 +203,8 @@ def data_abonos():
        return redirect(url_for('data_confirmacion')) 
 
 
-@app.route('/crear_nueva_p',methods=['GUEST','POST']) 
-def crear_nueva_p():
-    if request.method == 'POST':
-       cur = connection.cursor()
-       parada=request.form['nombre']
-       direccion=request.form['direccion']
-       municipio=request.form['municipio']
-       provincia=request.form['provincia']
-       zona=request.form['zona']
-       cuota=request.form['cuota']
-       pago=request.form['pago']
-       banco=request.form['banco']
-       num_cuenta=request.form['cuenta']
-       funciones.generar_pp(cur,parada,direccion,municipio,provincia,zona,cuota,pago,banco,num_cuenta)
-       return render_template('digitadores.html')
-
-
-
-                                                   
-@app.route('/edit_parada',methods=['GUEST','POST']) 
-def edit_parada(): 
-    if request.method == 'POST':               
-       parada=request.form['e-parada']
-       cur = connection.cursor()
-       data=funciones.info_parada(cur,parada)
-       cur.close()      
-       return render_template('digitadores.html',data=data,parada=parada) 
- 
-@app.route('/actualizar_p',methods=['GUEST','POST']) 
-def actualizar_p():
-    if request.method == 'POST':
-       cur = connection.cursor()
-       parada=request.form['parada']
-       direccion=request.form['direccion']
-       municipio=request.form['municipio']
-       provincia=request.form['provincia']
-       zona=request.form['zona']
-       cuota=request.form['cuota']
-       pago=request.form['pago']
-       banco=request.form['banco']
-       num_cuenta=request.form['num_cuenta']
-       funciones.actualizar_pp(cur,parada,direccion,municipio,provincia,zona,cuota,pago,banco,num_cuenta)   
-       cur.close()
-       return render_template('digitadores.html')                      
-                           
-@app.route('/n_miembro',methods=['GUEST','POST']) 
-def n_miembro(): 
-    if request.method == 'POST':
-       cur = connection.cursor()
-       parada=request.form['E-parada']
-       nombre=request.form['nombre']
-       cedula=request.form['cedula']
-       telefono=request.form['telefono']
-       funcion=request.form['funcion']
-       funciones.insertar_Asociado(cur,parada,nombre,cedula,telefono,funcion)
-       cur.close()
-       return render_template('digitadores.html')
-
-@app.route('/select_p',methods=['GUEST','POST']) 
-def select_p(): 
-    if request.method == 'POST':
-       cur = connection.cursor()
-       parada=request.form['parada']
-       list_miembros=funciones.nombres_miembro(cur,parada)
-       cur.close()
-       return render_template('digitadores.html',parada=parada,list_miembros=list_miembros)
-                           
-                           
-@app.route('/select_miembro',methods=['GUEST','POST']) 
-def select_miembro(): 
-    if request.method == 'POST':
-       cur = connection.cursor()
-       parada=request.form['parada']
-       miembro=request.form['miembros']
-       datos_miembro=funciones.dat_miembros(cur,parada,miembro)
-    return render_template('digitadores.html',datos_miembro=datos_miembro,parada=parada ) 
- 
-@app.route('/redit_miembro',methods=['GUEST','POST']) 
-def redit_miembro(): 
-    if request.method == 'POST':
-       cur = connection.cursor()
-       parada=request.form['parada']
-       id=request.form['id']
-       nombre=request.form['nombre']
-       cedula=request.form['cedula']
-       telefono=request.form['telefono']
-       funcion=request.form['funcion']
-       funciones.actualizar_asoc(cur,parada,nombre,cedula,telefono,funcion,id)
-       cur.close()
-       return render_template('digitadores.html')
-
-
 if __name__ == "__main__":
-    app.run(debug=True,port=5600,host='0.0.0.0')
+    app.run(debug=True,port=5700,host='0.0.0.0')
 
 
 

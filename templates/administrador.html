@@ -18,11 +18,13 @@
    </li>
    <li>
    <label for="miembro">MIEMBROS:</label>
-   <input type="text" name="numero" value="{{ cabecera[2]}}" id="miembro">         
+   <input type="text" name="numero" value="{{ cabecera[0]}}" id="miembro">         
    </li>
    <li>
    <label for="valor">CUOTA:</label>
-   <input type="text" name="valor" value="{{ cabecera[0]}}" id="valor">
+   {%for dat in informacion %} 
+   <input type="text" name="valor" value="{{dat[6]}}" id="valor">
+   {%endfor%}
    </li>
    </ol>
    </fieldset>
@@ -67,30 +69,25 @@
 
 <section id="bancos">
    <fieldset class="pago">
-   <form action="data_bancos" method="post"> 
+   <form action="/data_bancos" method="post"> 
    {%for datos in informacion %}   
-   <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">   
-   
+   <input type="hidden" name="parada" value="{{datos[1]}}" id="parada">      
    <legend><h1>REPORTE BANCARIO</h1></legend>      
    <ol>    
    <li>   
-   <h4>PARADA:{{datos[2]}}</h4>
+   <h4>PARADA:{{datos[1]}}</h4>
    </li>   
-
-   <li>    
-      <label for="tipo"><h4>REPORTE_BANCARIO</h4></label>
-   </li>
    <li>    
       <label for="fecha">FECHA:</label>
       <input type="text" name="time" value="{{fecha}}" id="fecha">
    </li>
    <li>                   
       <label for="banco">BANCO:</label>
-      <input type="text" name="n_cuenta" value="{{datos[8]}}" id="banco">
+      <input type="text" name="banco" value="{{datos[8]}}" id="banco">
    </li>
    <li>     
       <label for="numero">CUENTA #:</label>
-      <input type="text" name="n_cuenta" value="{{datos[9]}}" id="numero">
+      <input type="text" name="cuenta" value="{{datos[9]}}" id="numero">
    </li> 
    <li>    
       <label for="balance">BALANCE:</label>
@@ -104,17 +101,16 @@
    </form>     
    </fieldset>
    </section>
+
    <section id="gastos">
    <fieldset class="pago">  
    <form action="/data_gastos" method="post">
    <legend><h1>REPORTE GASTOS </h1></legend>   
-   {%for datos in informacion %}   
-     <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
-   {%endfor%}  
    <ol> 
    <li> 
    {%for datos in informacion %}
-   <h4>PARADA:{{datos[2]}}</h4>
+   <h4>PARADA:{{datos[1]}}</h4>
+   <input type="hidden" name="parada" value="{{datos[1]}}" id="parada">
    {%endfor%}
    </li>
    <li>
@@ -146,14 +142,12 @@
    <section id="ingresos" >
    <fieldset class="pago">        
    <form action="data_ingresos" method="post">
-   <legend><h1>REPORTE DE INGRESOS</h1></legend>    
-   {%for datos in informacion %}   
-      <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
-   {%endfor%}   
+   <legend><h1>REPORTE DE INGRESOS</h1></legend>       
    <ol> 
    <li>   
    {%for datos in informacion %}
-      <h4>PARADA:{{datos[2]}}</h4>
+      <h4>PARADA:{{datos[1]}}</h4>
+      <input type="hidden" name="parada" value="{{datos[1]}}" id="parada"> 
    {%endfor%} 
    </li> 
    <li>
@@ -180,17 +174,18 @@
    </fieldset>
    </form>   
    </section>
+
    <section id="prestamos" >
    <fieldset class="pago"> 
    <form action="data_prestamos" method="post">  
    <legend><h1>REPORTE PRESTAMOS</h1></legend>    
    {%for datos in informacion %}   
-   <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
+   <input type="hidden" name="parada" value="{{datos[1]}}" id="parada">  
    {%endfor%}      
    <ol>  
    <li>
    {%for datos in informacion %}
-      <h4>PARADA: {{datos[2]}}</h4>
+      <h4>PARADA: {{datos[1]}}</h4>
    {%endfor%}
    </li> 
    <li>   
@@ -202,7 +197,7 @@
    <select name="descripcion_p" id="beneficiado">         
       <option value="Sin Beneficiario ">Sin Beneficiario</option>
       {% for usuario in miembros %}
-      <option value="{{usuario[1]}}">{{usuario[1]}}</option>
+      <option>{{usuario[1]}}</option>
       {%endfor%}
    </select>
    </li>
@@ -221,12 +216,12 @@
    <form action="data_abonos" method="post">
    <legend><h1>REPORTE DE ABONO A PRESTAMOS</h1></legend>    
    {%for datos in informacion %}   
-       <input type="hidden" name="parada" value="{{datos[2]}}" id="parada">  
+       <input type="hidden" name="parada" value="{{datos[1]}}" id="parada">  
    {%endfor%}  
    <ol>   
    <li>
    {%for datos in informacion %}
-   <h4>PARADA: {{datos[2]}}</h4>
+   <h4>PARADA: {{datos[1]}}</h4>
    {%endfor%} 
    </li>                   
    <li>
@@ -238,7 +233,7 @@
    <select name="descripcion_a" id="abonar">                 
       <option value="Nigun Abono ">Nigun Abono</option>
       {% for usuario in miembros %}
-      <option value="{{usuario[1]}}">{{usuario[1]}}</option>
+      <option >{{usuario[1]}}</option>
       {%endfor%}
    </select>
    </li>
