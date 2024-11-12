@@ -37,7 +37,7 @@ def login():
 def verificador(): 
    msg = ''
    if request.method == 'POST':  
-    global parada,cedula,password     
+    global parada      
     parada = request.form['parada']
     cedula = request.form['cedula']
     password = request.form['clave']    
@@ -50,8 +50,15 @@ def verificador():
          cur.execute(f"SELECT password FROM tabla_index  WHERE nombre ='{parada}'" )
          ident=cur.fetchall() 
          for idx in ident:  
-            if password == idx[0]: 
-               return render_template('entrada.html',parada=parada)  
+            if password == idx[0]:                                                                          
+                fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
+                informacion=funciones.info_parada(cur,parada) 
+                cabecera=funciones.info_cabecera(cur,parada) 
+                miembros=funciones.lista_miembros(cur,parada)                 
+                diario=funciones.diario_general(cur,parada)  
+                cuotas_hist=funciones.prestamo_aport(cur,parada)
+                cur.close()
+                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist,parada=parada)                 
             else:
                msg = 'Incorrecta contraseña de la parada!'          
                flash(msg)           
@@ -65,24 +72,7 @@ def verificador():
       flash(msg)          
       return redirect(url_for('login'))            
                 
-@app.route("/new_data", methods=["GUET","POST"])
-def new_data(): 
-    if request.method == 'POST':      
-        parada = request.form['parada'] 
-        cur=connection.cursor()                                                                          
-        fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
-        informacion=funciones.info_parada(cur,parada) 
-        cabecera=funciones.info_cabecera(cur,parada) 
-        miembros=funciones.lista_miembros(cur,parada)                 
-        diario=funciones.diario_general(cur,parada)  
-        cuotas_hist=funciones.prestamo_aport(cur,parada)
-        cur.close()
-        return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist) 
 
-
-
-    
-    
 @app.route('/administrador') 
 def administrador():
     return render_template('login_a.html',parada=parada)
