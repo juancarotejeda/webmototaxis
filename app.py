@@ -33,8 +33,8 @@ def login():
     cur.close()                   
     return render_template('login.html',n_paradas=paradas)
 
-@app.route("/new_data", methods=["GUET","POST"])
-def new_data(): 
+@app.route("/verificador", methods=["GUET","POST"])
+def verificador(): 
    msg = ''
    if request.method == 'POST':  
     global parada,cedula,password     
@@ -43,26 +43,19 @@ def new_data():
     password = request.form['clave']    
     cur = connection.cursor()    
     estacion=funciones.check_parada(cur,parada)
-    if estacion == True:   
+    if estacion == True:           
         cur.execute(f"SELECT cedula FROM {parada} WHERE cedula='{cedula}'")
         result = cur.fetchall()
         if result != []:   
          cur.execute(f"SELECT password FROM tabla_index  WHERE nombre ='{parada}'" )
          ident=cur.fetchall() 
          for idx in ident:  
-            if password == idx[0]:                                             
-                fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
-                informacion=funciones.info_parada(cur,parada) 
-                cabecera=funciones.info_cabecera(cur,parada) 
-                miembros=funciones.lista_miembros(cur,parada)                 
-                diario=funciones.diario_general(cur,parada)  
-                cuotas_hist=funciones.prestamo_aport(cur,parada)
-                cur.close()
-                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist) 
+            if password == idx[0]: 
+               return render_template('entrada.html',parada=parada)  
             else:
-                msg = 'Incorrecta contraseña de la parada!'          
-                flash(msg)           
-                return redirect(url_for('login')) 
+               msg = 'Incorrecta contraseña de la parada!'          
+               flash(msg)           
+               return redirect(url_for('login'))    
         else:
           msg = 'cedula Incorrecta para esta parada!'
           flash(msg)           
@@ -70,15 +63,32 @@ def new_data():
     else:
       msg = 'Esta parada esta inoperante!' 
       flash(msg)          
-      return redirect(url_for('login'))
+      return redirect(url_for('login'))            
+                
+@app.route("/new_data", methods=["GUET","POST"])
+def new_data(): 
+    if request.method == 'POST':      
+        parada = request.form['parada'] 
+        cur=connection.cursor()                                                                          
+        fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
+        informacion=funciones.info_parada(cur,parada) 
+        cabecera=funciones.info_cabecera(cur,parada) 
+        miembros=funciones.lista_miembros(cur,parada)                 
+        diario=funciones.diario_general(cur,parada)  
+        cuotas_hist=funciones.prestamo_aport(cur,parada)
+        cur.close()
+        return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist) 
+
+
+
     
     
 @app.route('/administrador') 
 def administrador():
     return render_template('login_a.html',parada=parada)
 
-@app.route('/digitadores') 
-def digitadores():
+@app.route('/entrada') 
+def entrada():
     return render_template('login_dir.html')
 
 @app.route('/contacto') 
@@ -149,12 +159,14 @@ def data_confirmacion():
 @app.route("/data_bancos",methods=["GET","POST"])
 def data_bancos(): 
     if request.method == 'POST':
-       fecha = request.form['time']
        parada=request.form['parada'] 
+       fecha = request.form['time']
        banco = request.form['banco'] 
+       cuenta = request.form['cuenta'] 
+       operacion = request.form['operacion']
        balance = request.form['balance']
        cur = connection.cursor() 
-       funciones.estado_bancario(cur,parada,fecha,banco,balance)      
+       funciones.estado_bancario(cur,parada,fecha,banco,cuenta,operacion,balance)      
        cur.close()   
        return redirect(url_for('data_confirmacion'))   
 

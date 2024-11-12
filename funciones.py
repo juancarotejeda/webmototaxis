@@ -153,15 +153,15 @@ def verif_dig(cur,nombre,password):
     else: 
         return False
  
-def estado_bancario(cur,parada,fecha,nom_banco,t_cuenta,n_cuenta,balance_c): 
-    cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_banco( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL, banco VARCHAR(50) NULL, tipo_cuenta VARCHAR(50) NULL,  numero_cuenta VARCHAR(50) NULL, balance DECIMAl(10,2) unsigned DEFAULT 0)")                                                                                                                                
-    cur.execute(f"INSERT INTO {parada}_banco(fecha, banco, tipo_cuenta, numero_cuenta, balance) VALUES('{fecha}', '{nom_banco}', '{t_cuenta}', '{n_cuenta}', {balance_c})")
-    cur.execute(f"UPDATE tabla_index SET balance_banco={balance_c} WHERE nombre='{parada}'")
+def estado_bancario(cur,parada,fecha,banco,cuenta,operacion,monto,balance) : 
+    cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_banco( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL, banco VARCHAR(50) NULL, tipo_cuenta VARCHAR(50) NULL,  numero_cuenta VARCHAR(50) NULL, monto DECIMAl(10,2) unsigned DEFAULT 0, balance DECIMAl(10,2) unsigned DEFAULT 0,PRIMARY KEY(id))")                                                                                                                                
+    cur.execute(f"INSERT INTO {parada}_banco(fecha, banco, numero_cuenta, operacion, monto, balance) VALUES('{fecha}', '{banco}', '{cuenta}', '{operacion}',{monto}, {balance})")
+    cur.execute(f"UPDATE tabla_index SET balance_banco={balance} WHERE nombre='{parada}'")
     return  
 
 def report_gastos(cur,parada,fecha,descripcion_gastos,cantidad_gastos):
      n_gastos=[] 
-     cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_gastos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL,descripcion_gastos VARCHAR(50) NULL, cantidad_gastos DECIMAl(10,2) unsigned DEFAULT 0)")                                                                                                                         
+     cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_gastos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL,descripcion_gastos VARCHAR(50) NULL, cantidad_gastos DECIMAl(10,2) unsigned DEFAULT 0, PRIMARY KEY(id))")                                                                                                                         
      cur.execute(f"INSERT INTO {parada}_gastos(fecha, descripcion_gastos, cantidad_gastos) VALUES('{fecha}', '{descripcion_gastos}', {cantidad_gastos})")
      cur.execute(f"SELECT SUM(cantidad_gastos) FROM  {parada}_gastos ")
      suma=cur.fetchall() 
@@ -172,7 +172,7 @@ def report_gastos(cur,parada,fecha,descripcion_gastos,cantidad_gastos):
  
 def report_ingresos(cur,parada,fecha,descripcion_ingreso,cantidad_ingreso):
        n_ingresos=[]    
-       cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_ingresos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL, descripcion_ingresos VARCHAR(50)  NULL, cantidad_ingresos DECIMAl(10,2) unsigned DEFAULT 0)" )                                                                                                                               
+       cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_ingresos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL, descripcion_ingresos VARCHAR(50)  NULL, cantidad_ingresos DECIMAl(10,2) unsigned DEFAULT 0 , PRIMARY KEY(id))" )                                                                                                                               
        cur.execute(f"INSERT INTO {parada}_ingresos(fecha, descripcion_ingresos, cantidad_ingresos) VALUES('{fecha}', '{descripcion_ingreso}', { cantidad_ingreso})")       
        cur.execute(f"SELECT SUM(cantidad_ingresos) FROM  {parada}_ingresos ")
        suma=cur.fetchall() 
@@ -183,7 +183,7 @@ def report_ingresos(cur,parada,fecha,descripcion_ingreso,cantidad_ingreso):
  
 def report_prestamo(cur,parada,fecha,prestamo,monto): 
        n_prestamos=[]     
-       cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_prestamos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL, prestamo_a VARCHAR(50)  NULL, monto_prestamo DECIMAl(10,2) unsigned DEFAULT 0 )")                                                                                                                                 
+       cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_prestamos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL, prestamo_a VARCHAR(50)  NULL, monto_prestamo DECIMAl(10,2) unsigned DEFAULT 0, PRIMARY KEY(id) )")                                                                                                                                 
        cur.execute(f"INSERT INTO {parada}_prestamos(fecha, prestamo_a, monto_prestamo) VALUES('{fecha}',  '{prestamo}', {monto})")            
        cur.execute(f"SELECT SUM(monto_prestamo) FROM  {parada}_prestamos ")
        suma=cur.fetchall 
@@ -197,7 +197,7 @@ def report_abono(cur,parada,fecha,abono_a,cantidad_a):
     n_abonos=[]
     prestamo=[] 
     abono_persona=[]
-    cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_abonos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL,  abono_a VARCHAR(50)  NULL, monto_abono DECIMAl(10,2) unsigned DEFAULT 0, balance_prestamo DECIMAl(10,2) unsigned DEFAULT 0)" )                                                                                                                            
+    cur.execute(f"CREATE TABLE IF NOT EXISTS {parada}_abonos( id int NOT NULL AUTO_INCREMENT ,fecha VARCHAR(50)  NULL,  abono_a VARCHAR(50)  NULL, monto_abono DECIMAl(10,2) unsigned DEFAULT 0, balance_prestamo DECIMAl(10,2) unsigned DEFAULT 0 , PRIMARY KEY(id))" )                                                                                                                            
     cur.execute(f"INSERT INTO {parada}_abonos(fecha, abono_a, monto_abono) VALUES('{fecha}', '{abono_a}', {cantidad_a})")         
     cur.execute(f"SELECT SUM(monto_abono) FROM  {parada}_abonos ")
     suma=cur.fetchall() 

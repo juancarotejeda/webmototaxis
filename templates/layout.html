@@ -1,37 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<meta charset="utf-8">
-<!-- mobile metas -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mototaxistas</title> 
-<head>  
-<link href="/static/css/estilo.css" rel="stylesheet"> 
-<link rel="webside icon" type="png" href="/static/favicon_io/favicon-32x32.png">
-</head>  
-  
-<header class="headers">  
- <div class="logo">
-   <img src="/static/images/logo-motoben.jpg" alt="logo de la Adm.">
-</div> 
-<nav class="menu" id="menu">
-  <ul>
-    <li><a href="{{url_for('data_confirmacion')}}">HOME</a></li>
-    <li><a href="{{url_for('administrador')}}">ADMINISTRADOR</a></li>
-    <li><a href="{{url_for('contacto')}}">CONTACTAR</a></li> 
-  </ul> 
- </nav>
-</header>
-<fieldset class="publicidad_u">
-<img src="/static/images/video_publicidad.gif" alt="publicidad de la Adm." width="400" height="75">
-</fieldset>
-{% block content %}
-<body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mototaxistas</title> 
+    <link href="/static/css/estilo.css" rel="stylesheet"> 
+    <link rel="webside icon" type="png" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="stylesheet" href="/static/css/estilo.css">
+</head>
+    <header>
+        <nav>
+            <a href="#"><img class="logo" src="/static/images/logo-motoben.jpg" alt="logo"></a>
+
+            <ul class="enlaces-menu">
+                <li><a href="{{url_for('data_confirmacion')}}">CHOFER</a></li>
+                <li><a href="{{url_for('administrador')}}">PRESIDENTE</a></li>
+                <li><a href="{{url_for('contacto')}}">CONTACTO</a></li> 
+            </ul>
+
+          <button class="ham" type="button">   
+                <span class="br-1"></span>
+                <span class="br-2"></span>
+                <span class="br-3"></span>
+          </button>                       
+        </nav>
+        <fieldset class="publicidad_u">
+          <img src="/static/images/video_publicidad.gif" alt="publicidad de la Adm." width="auto" height="65">
+        </fieldset>
+    </header>
+    <body>     
+        {% block content %}
+
+        {% endblock %}
+        <fieldset class="publicidad_d"> 
+             <img src="/static/images/publicidad2.jpg" alt="logo de la Adm." width="auto" height="50" > 
+        </fieldset>
+        <fieldset class="publicidad_d2"> 
+             &copy; Copyright 2024 by <a href="http://www.cessrl.blogspot.com">La Administradora</a>.
+        </fieldset>
+    <script src="/static/js/main.js"></script>  
 </body>
-{% endblock %}
-<fieldset class="publicidad_d"> 
-  <img src="/static/images/publicidad2.jpg" alt="logo de la Adm." width="400" height="75" > 
-</fieldset>
-<fieldset class="publicidad_d2"> 
-&copy; Copyright 2024 by <a href="http://www.cessrl.blogspot.com">La Administradora</a>.
-</fieldset>
-  </html>
+</html>

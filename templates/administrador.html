@@ -6,7 +6,6 @@
 <fieldset class="tables">
 <form action="/data_cuotas" method="POST">   
 <legend><h1>LISTA DE PAGOS</h1></legend> 
-<fieldset class="encabezado">       
    <ol>
    <li>
    <label for="paradas">PARADA:</label>             
@@ -27,7 +26,6 @@
    {%endfor%}
    </li>
    </ol>
-   </fieldset>
    <table>
    <tr>
       <th>ITEM</th>
@@ -75,7 +73,7 @@
    <legend><h1>REPORTE BANCARIO</h1></legend>      
    <ol>    
    <li>   
-   <h4>PARADA:{{datos[1]}}</h4>
+   <h1>PARADA:{{datos[1]}}</h1>
    </li>   
    <li>    
       <label for="fecha">FECHA:</label>
@@ -89,8 +87,19 @@
       <label for="numero">CUENTA #:</label>
       <input type="text" name="cuenta" value="{{datos[9]}}" id="numero">
    </li> 
+   <li>     
+      <label for="operacion">Tipo de Operacion:</label>
+      <select name="operacion" id="operacion">
+         <optgroup label="Tipo de operacion">  
+         <option selected ></option>
+         <option >Deposito</option>
+         <option >Retiro</option>         
+         </optgroup>
+   </select>
+   <input type="hidden" value="operacion" name="operacion">
+   </li> 
    <li>    
-      <label for="balance">BALANCE:</label>
+      <label for="balance">Monto de operacion:</label>
       <input type="text" name="balance" value="0.0000" id="balance">
    </li>
    <li>
