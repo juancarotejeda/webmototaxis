@@ -31,16 +31,16 @@ def login():
     for paradax in resultado:
        paradas+=paradax  
     cur.close()                   
-    return render_template('login.html',n_paradas=paradas)
+    return render_template('login.html',paradas=paradas)
 
 @app.route("/verificador", methods=["GUET","POST"])
 def verificador(): 
    msg = ''
-   if request.method == 'POST':  
-    global parada      
+   global parada 
+   if request.method == 'POST':        
     parada = request.form['parada']
     cedula = request.form['cedula']
-    password = request.form['clave']    
+    password = request.form['clave']   
     cur = connection.cursor()    
     estacion=funciones.check_parada(cur,parada)
     if estacion == True:           
@@ -51,19 +51,19 @@ def verificador():
          ident=cur.fetchall() 
          for idx in ident:  
             if password == idx[0]:                                                                          
-                fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H:%M:%S")
+                fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H")
                 informacion=funciones.info_parada(cur,parada) 
                 cabecera=funciones.info_cabecera(cur,parada) 
-                miembros=funciones.lista_miembros(cur,parada)                 
-                diario=funciones.diario_general(cur,parada)  
+                miembros=funciones.lista_miembros(cur,parada)                
+                diario=funciones.diario_general(cur,parada) 
                 cuotas_hist=funciones.prestamo_aport(cur,parada)
                 cur.close()
-                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist,parada=parada)                 
+                return render_template('info.html',informacion=informacion,cabecera=cabecera,fecha=fecha,miembros=miembros,diario=diario,cuotas_hist=cuotas_hist)                 
             else:
                msg = 'Incorrecta contraseña de la parada!'          
                flash(msg)           
                return redirect(url_for('login'))    
-        else:
+        else:    
           msg = 'cedula Incorrecta para esta parada!'
           flash(msg)           
           return redirect(url_for('login'))    
@@ -71,15 +71,25 @@ def verificador():
       msg = 'Esta parada esta inoperante!' 
       flash(msg)          
       return redirect(url_for('login'))            
+
+@app.route('/chofer') 
+def chofer():
+    cur = connection.cursor()
+    fecha = datetime.strftime(datetime.now(),"%Y %m %d - %H")
+    informacion=funciones.info_parada(cur,parada) 
+    miembros=funciones.lista_miembros(cur,parada)
+    diario=funciones.diario_general(cur,parada)
+    datos=funciones.aportacion(cur,parada) 
+    cabecera=funciones.info_cabecera(cur,parada)
+    cuotas_hist=funciones.prestamo_aport(cur,parada)
+    cur.close()  
+    return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha=fecha,cuotas_hist=cuotas_hist)   
+
                 
 
 @app.route('/administrador') 
 def administrador():
     return render_template('login_a.html',parada=parada)
-
-@app.route('/entrada') 
-def entrada():
-    return render_template('login_dir.html')
 
 @app.route('/contacto') 
 def contacto():
@@ -112,7 +122,7 @@ def logout():
 	session.pop('loggedin', None)
 	session.pop('id', None)
 	session.pop('username', None)
-	return redirect(url_for('data_confirmacion'))
+	return render_template('login.html',paradas=parada)
 
 @app.route("/data_cuotas", methods=["GET","POST"])
 def data_cuotas():
@@ -130,22 +140,15 @@ def data_cuotas():
         string=funciones.dividir_lista(my_list,4)
         cur = connection.cursor()
         funciones.crear_p(cur,parada,string,valor_cuota,hoy)  
-        cur.close()                                                        
-        return redirect(url_for('data_confirmacion'))   
- 
-@app.route("/data_confirmacion", methods=["GET","POST"])
-def data_confirmacion():
-         cur = connection.cursor()
-         informacion=funciones.info_parada(cur,parada) 
-         miembros=funciones.lista_miembros(cur,parada)
-         diario=funciones.diario_general(cur,parada)
-         datos=funciones.aportacion(cur,parada) 
-         hoy = datetime.strftime(datetime.now(),"%Y %m %d - %H")
-         cabecera=funciones.info_cabecera(cur,parada)
-         cuotas_hist=funciones.prestamo_aport(cur,parada)
-         cur.close()  
-         return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha={hoy},cuotas_hist=cuotas_hist)
-
+        informacion=funciones.info_parada(cur,parada) 
+        miembros=funciones.lista_miembros(cur,parada)
+        diario=funciones.diario_general(cur,parada)
+        datos=funciones.aportacion(cur,parada) 
+        cabecera=funciones.info_cabecera(cur,parada)
+        cuotas_hist=funciones.prestamo_aport(cur,parada)
+        cur.close()  
+        return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha={hoy},cuotas_hist=cuotas_hist)   
+    
 @app.route("/data_bancos",methods=["GET","POST"])
 def data_bancos(): 
     if request.method == 'POST':
@@ -157,8 +160,14 @@ def data_bancos():
        balance = request.form['balance']
        cur = connection.cursor() 
        funciones.estado_bancario(cur,parada,fecha,banco,cuenta,operacion,balance)      
-       cur.close()   
-       return redirect(url_for('data_confirmacion'))   
+       informacion=funciones.info_parada(cur,parada) 
+       miembros=funciones.lista_miembros(cur,parada)
+       diario=funciones.diario_general(cur,parada)
+       datos=funciones.aportacion(cur,parada) 
+       cabecera=funciones.info_cabecera(cur,parada)
+       cuotas_hist=funciones.prestamo_aport(cur,parada)
+       cur.close()  
+       return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha=fecha,cuotas_hist=cuotas_hist)  
 
 @app.route("/data_gastos",methods=["GET","POST"])
 def data_gastos():
@@ -168,8 +177,14 @@ def data_gastos():
        cantidad_gastos = request.form['cantidad_g']
        cur = connection.cursor() 
        funciones.report_gastos(cur,parada,fecha,descripcion_gastos,cantidad_gastos)          
-       cur.close()
-       return redirect(url_for('data_confirmacion')) 
+       informacion=funciones.info_parada(cur,parada) 
+       miembros=funciones.lista_miembros(cur,parada)
+       diario=funciones.diario_general(cur,parada)
+       datos=funciones.aportacion(cur,parada) 
+       cabecera=funciones.info_cabecera(cur,parada)
+       cuotas_hist=funciones.prestamo_aport(cur,parada)
+       cur.close()  
+       return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha=fecha,cuotas_hist=cuotas_hist)
 
 @app.route("/data_ingresos",methods=["GET","POST"])
 def data_ingresos(): 
@@ -179,8 +194,16 @@ def data_ingresos():
        cantidad_ingreso = request.form['cantidad_i'] 
        cur = connection.cursor() 
        funciones.report_ingresos(cur,parada,fecha,descripcion_ingreso,cantidad_ingreso)          
+       informacion=funciones.info_parada(cur,parada) 
+       miembros=funciones.lista_miembros(cur,parada)
+       diario=funciones.diario_general(cur,parada)
+       datos=funciones.aportacion(cur,parada) 
+       cabecera=funciones.info_cabecera(cur,parada)
+       cuotas_hist=funciones.prestamo_aport(cur,parada)
        cur.close()  
-       return redirect(url_for('data_confirmacion'))        
+       return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha=fecha,cuotas_hist=cuotas_hist)       
+
+
               
 @app.route("/data_prestamos",methods=["GET","POST"])
 def data_prestamos(): 
@@ -190,8 +213,14 @@ def data_prestamos():
        monto = request.form['cantidad_p']
        cur = connection.cursor() 
        funciones.report_prestamo(cur,parada,fecha,prestamo,monto)          
-       cur.close()
-       return redirect(url_for('data_confirmacion')) 
+       informacion=funciones.info_parada(cur,parada) 
+       miembros=funciones.lista_miembros(cur,parada)
+       diario=funciones.diario_general(cur,parada)
+       datos=funciones.aportacion(cur,parada) 
+       cabecera=funciones.info_cabecera(cur,parada)
+       cuotas_hist=funciones.prestamo_aport(cur,parada)
+       cur.close()  
+       return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha=fecha,cuotas_hist=cuotas_hist)
 
 @app.route("/data_abonos",methods=["GET","POST"])
 def data_abonos(): 
@@ -201,8 +230,14 @@ def data_abonos():
        cantidad_a = request.form['cantidad_a']  
        cur = connection.cursor() 
        funciones.report_abono(cur,parada,fecha,abono_a,cantidad_a)          
-       cur.close()
-       return redirect(url_for('data_confirmacion')) 
+       informacion=funciones.info_parada(cur,parada) 
+       miembros=funciones.lista_miembros(cur,parada)
+       diario=funciones.diario_general(cur,parada)
+       datos=funciones.aportacion(cur,parada)
+       cabecera=funciones.info_cabecera(cur,parada)
+       cuotas_hist=funciones.prestamo_aport(cur,parada)
+       cur.close()  
+       return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha=fecha,cuotas_hist=cuotas_hist)
 
 
 if __name__ == "__main__":

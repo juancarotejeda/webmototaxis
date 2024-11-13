@@ -24,11 +24,11 @@
   <li> 
   <label for="parada">Parada</label>          
   <select name="parada" id="parada">
-        <optgroup label="Paradas"> 
-        <option selected ></option>   
-        {%for parada in n_paradas%}
-        <option >{{parada}}</option>
-        {%endfor%}
+        <optgroup label="Paradas">
+          {%for parada in paradas%}
+          <option selected ></option>   
+          <option >{{parada}}</option>
+          {%endfor%}
         </optgroup>
   </select>      
   </li> 
