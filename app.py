@@ -85,8 +85,6 @@ def chofer():
     cur.close()  
     return render_template("info.html",informacion=informacion,miembros=miembros,diario=diario,datos=datos,cabecera=cabecera,fecha=fecha,cuotas_hist=cuotas_hist)   
 
-                
-
 @app.route('/administrador') 
 def administrador():
     return render_template('login_a.html',parada=parada)
