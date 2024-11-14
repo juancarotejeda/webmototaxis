@@ -25,8 +25,8 @@
   <label for="parada">Parada</label>          
   <select name="parada" id="parada">
         <optgroup label="Paradas">
-          {%for parada in paradas%}
-          <option selected ></option>   
+          <option selected ></option> 
+          {%for parada in paradas%}  
           <option >{{parada}}</option>
           {%endfor%}
         </optgroup>

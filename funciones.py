@@ -42,7 +42,7 @@ def info_cabecera(cur,parada):
      
 def lista_miembros(cur,parada):
     listas=[]
-    cur.execute(f"SELECT codigo,nombre,cedula,telefono,funcion  FROM {parada}")
+    cur.execute(f"SELECT id,nombre,cedula,telefono,funcion  FROM {parada}")
     miembros=cur.fetchall()
     for miembro in miembros:     
         listas+=miembro    
